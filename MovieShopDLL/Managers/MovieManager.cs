@@ -11,53 +11,53 @@ namespace MovieShopDLL.Managers
 {
     public class MovieManager : IManager<Movie, int>
     {
-
+        private MovieShopContext dbContext = new MovieShopContext();
         public Movie Create(Movie t)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                DbContext.Movies.Add(t);
-                DbContext.SaveChanges();
+                dbContext.Movies.Add(t);
+                dbContext.SaveChanges();
                 return t;
             }
         }
 
         public Movie Read(int id)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                return DbContext.Movies.FirstOrDefault(x => x.Id == id);
+                return dbContext.Movies.FirstOrDefault(x => x.Id == id);
             }
         }
 
         public List<Movie> ReadAll()
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
 
-                return DbContext.Movies.ToList();
+                return dbContext.Movies.ToList();
             }
         }
 
         public Movie Update(Movie t)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                DbContext.Entry(t).State = EntityState.Modified;
-                DbContext.SaveChanges();
+                dbContext.Entry(t).State = EntityState.Modified;
+                dbContext.SaveChanges();
                 return t;
             }
         }
 
         public bool Delete(int id)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                var toBeDeleted = DbContext.Movies.FirstOrDefault(x => x.Id == id);
+                var toBeDeleted = dbContext.Movies.FirstOrDefault(x => x.Id == id);
                 if (toBeDeleted != null)
                 {
-                    DbContext.Movies.Remove(toBeDeleted);
-                    DbContext.SaveChanges();
+                    dbContext.Movies.Remove(toBeDeleted);
+                    dbContext.SaveChanges();
                     return true;
                 }
             }

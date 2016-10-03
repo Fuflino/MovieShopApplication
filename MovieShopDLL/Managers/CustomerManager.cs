@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,14 @@ namespace MovieShopDLL.Managers
 {
     class CustomerManager : IManager<Customer, int>
     {
+        private MovieShopContext dbContext = new MovieShopContext();
+
         public Customer Create(Customer t)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                DbContext.Customers.Add(t);
-                DbContext.SaveChanges();
+                dbContext.Customers.Add(t);
+                dbContext.SaveChanges();
                 return t;
             }
 
@@ -23,40 +26,40 @@ namespace MovieShopDLL.Managers
 
         public Customer Read(int id)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                return DbContext.Customers.FirstOrDefault(x => x.Id == id);
+                return dbContext.Customers.FirstOrDefault(x => x.Id == id);
             }
         }
 
         public List<Customer> ReadAll()
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                return DbContext.Customers.ToList();
+                return dbContext.Customers.ToList();
             }
         }
 
         public Customer Update(Customer t)
         {
 
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
-                DbContext.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                DbContext.SaveChanges();
+                dbContext.Entry(t).State = System.Data.Entity.EntityState.Modified;
+                dbContext.SaveChanges();
                 return t;
             }
         }
 
         public bool Delete(int id)
         {
-            using (var DbContext = new MovieShopContext())
+            using (dbContext)
             {
                 if (id != null)
                 {
-                    var toBeDeleted = DbContext.Customers.FirstOrDefault(x => x.Id == id);
-                    DbContext.Customers.Remove(toBeDeleted);
-                    DbContext.SaveChanges();
+                    var toBeDeleted = dbContext.Customers.FirstOrDefault(x => x.Id == id);
+                    dbContext.Customers.Remove(toBeDeleted);
+                    dbContext.SaveChanges();
                     return true;
                 }
             }
