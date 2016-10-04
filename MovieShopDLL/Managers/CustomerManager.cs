@@ -13,9 +13,18 @@ namespace MovieShopDLL.Managers
     {
         private MovieShopContext dbContext = new MovieShopContext();
 
+        public CustomerManager()
+        {
+            foreach (var customer in ReadAll())
+            {
+                Delete(customer.Id);
+            }
+            Create(new Customer() {FirstName = "Stefan", LastName = "Thomsen"});
+            Create(new Customer() { FirstName = "Morten", LastName = "Greis" });
+        }
         public Customer Create(Customer t)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 dbContext.Customers.Add(t);
                 dbContext.SaveChanges();
@@ -26,7 +35,7 @@ namespace MovieShopDLL.Managers
 
         public Customer Read(int id)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 return dbContext.Customers.FirstOrDefault(x => x.Id == id);
             }
@@ -34,7 +43,7 @@ namespace MovieShopDLL.Managers
 
         public List<Customer> ReadAll()
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 return dbContext.Customers.ToList();
             }
@@ -43,7 +52,7 @@ namespace MovieShopDLL.Managers
         public Customer Update(Customer t)
         {
 
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 dbContext.Entry(t).State = System.Data.Entity.EntityState.Modified;
                 dbContext.SaveChanges();
@@ -53,7 +62,7 @@ namespace MovieShopDLL.Managers
 
         public bool Delete(int id)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 if (id != null)
                 {

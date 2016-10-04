@@ -11,9 +11,22 @@ namespace MovieShopDLL
     public class DLLFacade
     {
         private IManager<Customer, int> cm;
+        private IManager<Movie, int> mm;
+        private IManager<Order, int> om;
+
         public IManager<Customer, int> GetCustomerManager()
         {
             return cm ?? (cm = new CustomerManager());
+        }
+
+        public IManager<Movie, int> GetMovieManager()
+        {
+            return mm ?? (mm = new MovieManager());
+        }
+
+        public IManager<Order, int> GetOrderManager()
+        {
+            return om ?? (om = new OrderManager());
         }
     }
 }
