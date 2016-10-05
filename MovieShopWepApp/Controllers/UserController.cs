@@ -10,12 +10,18 @@ namespace MovieShopWepApp.Controllers
 {
     public class UserController : Controller
     {
-        private IManager<Movie, int> movMgr = new DLLFacade().GetMovieManager();
+
+        private IManager<Movie, int> _movieManager = new DLLFacade().GetMovieManager();
 
         // GET: User
         public ActionResult Index()
         {
-            return View(movMgr.ReadAll());
+            return View(_movieManager.ReadAll());
+        }
+
+        public ActionResult MovieDetails(int id)
+        {
+            return View(_movieManager.Read(id));
         }
     }
 }
