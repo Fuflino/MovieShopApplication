@@ -9,12 +9,15 @@ using MovieShopWepApp.Models;
 
 namespace MovieShopWepApp.Controllers
 {
+    [Authorize]
+    //[RequireHttps] --> kan ikke bruges på Azure, certifikat er et krav.
     public class AdminController : Controller
     {
         private IManager<Customer, int> cusMgr = new DLLFacade().GetCustomerManager();
         private IManager<Movie, int> movMgr = new DLLFacade().GetMovieManager();
         private IManager<Order, int> ordMgr = new DLLFacade().GetOrderManager();
 
+        [AllowAnonymous]
         // GET: Admin
         public ActionResult Index()
         {
