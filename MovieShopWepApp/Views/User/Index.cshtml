@@ -1,0 +1,15 @@
+﻿@using MovieShopDLL.Entities
+@model List<MovieShopDLL.Entities.Movie>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach (var movie in @Model)
+{
+    <div class="row">
+        <div class="col-xs-6 col-md-4">@movie.Genre</div>
+    </div>
+}
