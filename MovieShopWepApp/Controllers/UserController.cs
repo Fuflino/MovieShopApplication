@@ -16,7 +16,7 @@ namespace MovieShopWepApp.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            return View(_movieManager.ReadAll());
         }
 
         public ActionResult MovieDetails(int id)
