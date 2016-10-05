@@ -34,7 +34,7 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext)
             {
-                return dbContext.Orders.ToList();
+                return dbContext.Orders.Include("Customer").Include("Movie").ToList();
             }
         }
 
