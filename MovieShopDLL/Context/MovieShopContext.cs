@@ -10,9 +10,13 @@ namespace MovieShopDLL.Context
 {
         public class MovieShopContext : DbContext
         {
-            public MovieShopContext() : base()
+            public MovieShopContext() : base("MovieStoreDB")
             {
+<<<<<<< HEAD
                 Database.SetInitializer(new MovieDBInitializer());
+=======
+                
+>>>>>>> 0759271cb298474af079ba8ddf4f59115c03f4b9
             }
             
             public DbSet<Genre> Genres { get; set; }
