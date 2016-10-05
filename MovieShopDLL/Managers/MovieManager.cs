@@ -18,53 +18,66 @@ namespace MovieShopDLL.Managers
 
         private void InitDummyMovies()
         {
-            Movie m1 = new Movie()
+            var m1 = new Movie()
             {
                 Id = 1,
-                Title = "Test1",
-                Genre = new Genre() { Id = 1, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
+                Title = "Horror movie",
+                Description = "Just another movie",
                 Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
+                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
+                Price = 139.95,
+                Year = 2100,
+                Genre = new Genre() { Id = 4, Movies = new List<Movie>(), Name = "Sci-Fi" },
+                GenreId = 4,
+                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial"
+
             };
 
-            Movie m2 = new Movie()
+            var m2 = new Movie()
             {
+                Title = "Horror movie",
+                Description = "Just another movie",
                 Id = 2,
-                Title = "Test2",
-                Genre = new Genre() { Id = 2, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
+                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
+                Price = 139.95,
+                Year = 2100,
+                Genre = new Genre() { Id = 3, Movies = new List<Movie>(), Name = "Drama" },
+                GenreId = 1,
+                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial",
+                Orders = new List<Order>()
+
             };
 
-            Movie m3 = new Movie()
+            var m3 = new Movie()
             {
+                Title = "Horror movie",
+                Description = "Just another movie",
                 Id = 3,
-                Title = "Test3",
-                Genre = new Genre() { Id = 3, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
+                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
+                Price = 139.95,
+                Year = 2100,
+                Genre = new Genre() { Id = 1, Movies = new List<Movie>(), Name = "Horror"},
+                GenreId = 1,
+                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial",
+                Orders = new List<Order>()
+
             };
 
-            Movie m4 = new Movie()
+            var m4 = new Movie()
             {
+                Title = "Horror movie",
+                Description = "Just another movie",
                 Id = 4,
-                Title = "Test4",
-                Genre = new Genre() { Id = 4, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
+                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
+                Price = 139.95,
+                Year = 2100,
+                Genre = new Genre() { Id = 2, Movies = new List<Movie>(), Name = "Comic" },
+                GenreId = 1,
+                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial",
+                Orders = new List<Order>()
+
             };
+
             Create(m1);
             Create(m2);
             Create(m3);
