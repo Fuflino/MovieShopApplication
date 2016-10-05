@@ -20,7 +20,7 @@ namespace MovieShopDLL.Managers
 
         private void InitDummyMovies()
         {
-            Genre g = new Genre() {Movies = new List<Movie>(), Name = "Horror"};
+            Genre g = new Genre() {Name = "Horror"};
             g = _genreManager.Create(g);
             Movie m1 = new Movie()
             {
@@ -29,7 +29,6 @@ namespace MovieShopDLL.Managers
                 Genre = g,
                 ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
                 MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
                 Price = 100,
                 Year = 1992
             };
