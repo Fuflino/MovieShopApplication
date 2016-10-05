@@ -11,6 +11,8 @@ namespace MovieShopDLL.Managers
 {
     public class MovieManager : IManager<Movie, int>
     {
+        private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
+
         public MovieManager()
         {
             InitDummyMovies();
@@ -18,47 +20,13 @@ namespace MovieShopDLL.Managers
 
         private void InitDummyMovies()
         {
+            Genre g = new Genre() {Movies = new List<Movie>(), Name = "Horror"};
+            g = _genreManager.Create(g);
             Movie m1 = new Movie()
             {
-                Id = 1,
                 Title = "Test1",
-                Genre = new Genre() { Id = 1, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
-            };
-
-            Movie m2 = new Movie()
-            {
-                Id = 2,
-                Title = "Test2",
-                Genre = new Genre() { Id = 2, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
-            };
-
-            Movie m3 = new Movie()
-            {
-                Id = 3,
-                Title = "Test3",
-                Genre = new Genre() { Id = 3, Movies = new List<Movie>(), Name = "Horror" },
-                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                Orders = new List<Order>(),
-                Price = 100,
-                Year = 1992
-            };
-
-            Movie m4 = new Movie()
-            {
-                Id = 4,
-                Title = "Test4",
-                Genre = new Genre() { Id = 4, Movies = new List<Movie>(), Name = "Horror" },
+                GenreId = g.Id,
+                Genre = g,
                 ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
                 MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
                 Orders = new List<Order>(),
@@ -66,9 +34,6 @@ namespace MovieShopDLL.Managers
                 Year = 1992
             };
             Create(m1);
-            Create(m2);
-            Create(m3);
-            Create(m4);
         }
 
         public Movie Create(Movie t)
@@ -85,7 +50,9 @@ namespace MovieShopDLL.Managers
         {
             using (var dbContext = new MovieShopContext())
             {
-                return dbContext.Movies.FirstOrDefault(x => x.Id == id);
+                var m = dbContext.Movies.FirstOrDefault(x => x.Id == id);
+                m.Genre = _genreManager.Read(m.GenreId);
+                return m;
             }
         }
 

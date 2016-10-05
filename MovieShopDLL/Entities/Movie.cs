@@ -9,6 +9,12 @@ namespace MovieShopDLL.Entities
 {
     public class Movie : AbstractEntity
     {
+        
+        public Movie()
+        {
+            
+        }
+
         public string Title { get; set; }
         public string Description { get; set; }
         public int Year { get; set; }
@@ -18,6 +24,5 @@ namespace MovieShopDLL.Entities
         [ForeignKey("Genre")]
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
-        public List<Order> Orders { get; set; }
     }
 }

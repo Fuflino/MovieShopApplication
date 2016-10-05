@@ -10,11 +10,10 @@ using MovieShopDLL.Entities;
 namespace MovieShopDLL.Managers
 {
     class GenreManager : IManager<Genre, int>
-    {
-        private MovieShopContext dbContext = new MovieShopContext(); 
+    { 
         public Genre Create(Genre t)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 dbContext.Genres.Add(t);
                 dbContext.SaveChanges();
@@ -24,7 +23,7 @@ namespace MovieShopDLL.Managers
 
         public Genre Read(int id)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 return dbContext.Genres.FirstOrDefault(x => x.Id == id);
             }
@@ -32,7 +31,7 @@ namespace MovieShopDLL.Managers
 
         public List<Genre> ReadAll()
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 return dbContext.Genres.ToList();
             }
@@ -40,7 +39,7 @@ namespace MovieShopDLL.Managers
 
         public Genre Update(Genre t)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 dbContext.Entry(t).State = EntityState.Modified;
                 dbContext.SaveChanges();
@@ -51,7 +50,7 @@ namespace MovieShopDLL.Managers
 
         public bool Delete(int id)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 var toBeDeleted = dbContext.Genres.FirstOrDefault(x => x.Id == id);
                 if (toBeDeleted != null)
