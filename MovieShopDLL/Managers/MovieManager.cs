@@ -11,10 +11,30 @@ namespace MovieShopDLL.Managers
 {
     public class MovieManager : IManager<Movie, int>
     {
-        private MovieShopContext dbContext = new MovieShopContext();
+        public MovieManager()
+        {
+            InitDummyMovies();
+        }
+
+        private void InitDummyMovies()
+        {
+            Movie m = new Movie()
+            {
+                Id = 1,
+                Title = "Test1",
+                Genre = new Genre() { Id = 1, Movies = new List<Movie>(), Name = "Horror" },
+                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
+                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
+                Orders = new List<Order>(),
+                Price = 100,
+                Year = 1992
+            };
+            Create(m);
+        }
+
         public Movie Create(Movie t)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 dbContext.Movies.Add(t);
                 dbContext.SaveChanges();
@@ -24,7 +44,7 @@ namespace MovieShopDLL.Managers
 
         public Movie Read(int id)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 return dbContext.Movies.FirstOrDefault(x => x.Id == id);
             }
@@ -32,7 +52,7 @@ namespace MovieShopDLL.Managers
 
         public List<Movie> ReadAll()
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
 
                 return dbContext.Movies.ToList();
@@ -41,7 +61,7 @@ namespace MovieShopDLL.Managers
 
         public Movie Update(Movie t)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 dbContext.Entry(t).State = EntityState.Modified;
                 dbContext.SaveChanges();
@@ -51,7 +71,7 @@ namespace MovieShopDLL.Managers
 
         public bool Delete(int id)
         {
-            using (dbContext)
+            using (var dbContext = new MovieShopContext())
             {
                 var toBeDeleted = dbContext.Movies.FirstOrDefault(x => x.Id == id);
                 if (toBeDeleted != null)
