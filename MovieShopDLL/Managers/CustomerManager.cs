@@ -15,12 +15,7 @@ namespace MovieShopDLL.Managers
 
         public CustomerManager()
         {
-            //foreach (var customer in ReadAll())
-            //{
-            //    Delete(customer.Id);
-            //}
-            //Create(new Customer() {FirstName = "Stefan", LastName = "Thomsen"});
-            //Create(new Customer() { FirstName = "Morten", LastName = "Greis" });
+            
         }
         public Customer Create(Customer t)
         {
