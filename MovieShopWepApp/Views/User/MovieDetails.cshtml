@@ -12,23 +12,26 @@
         <table>
             <thead>Movie Details</thead>
             <tr>
-                <td class="my-default">Title:</td>
-                <td class="my-default">@Model.Title</></td>
+                <td class="type">Title:</td>
+                <td>@Model.Title</></td>
+                <td rowspan="4">
+                    <iframe width="400" height="250" src="@Model.MovieUrl" frameborder="0" allowfullscreen></iframe>
+                </td>
                 </tr>
             <tr>
-                <td class="my-default">Genre:</td>
-                <td class="my-default">@Model.Genre.Name</td>
+                <td class="type">Genre:</td>
+                <td>@Model.Genre.Name</td>
             </tr>
             <tr>
-                <td class="my-default">Year of Release:</td>
-                <td class="my-default">@Model.Year</td>
+                <td class="type">Released:</td>
+                <td>@Model.Year</td>
             </tr>
             <tr>
-                <td class="my-default">Price:</td>
-                <td class="my-default">@Model.Price</td>
+                <td class="type">Price:</td>
+                <td>@Model.Price</td>
             </tr>
+            
+            
         </table>
-
-
     </div>
 </body>

@@ -1,13 +1,23 @@
 ﻿body {
 }
 
-.my-default {
-    width: 125px;
-    height: 30px;
-}
-
 tr {
     height: 30px;
+    color: whitesmoke;
+    font-family: monospace;
 }
 
+table {
+    background: black;
+    border: 1px solid;
+}
+
+.type {
+    width: 110px;
+    font-weight: bold;
+}
+
+.value {
+    width: 200px;   
+}
 
