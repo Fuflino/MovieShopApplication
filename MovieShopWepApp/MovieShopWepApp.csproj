@@ -240,6 +240,7 @@
     <Content Include="Scripts\UserIndexScript.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Styles\AdminMainView.css" />
+    <Content Include="Styles\MovieDetailsStylesheet.css" />
     <Content Include="Styles\UserIndexView.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
