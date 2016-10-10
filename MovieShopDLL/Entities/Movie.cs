@@ -21,8 +21,9 @@ namespace MovieShopDLL.Entities
         public double Price { get; set; }
         public string ImageUrl { get; set; }
         public string MovieUrl { get; set; }
-        [ForeignKey("Genre")]
+        //[ForeignKey("Genre")]
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
+        public Order Order { get; set; }
     }
 }

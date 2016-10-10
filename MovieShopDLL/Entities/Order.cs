@@ -11,11 +11,11 @@ namespace MovieShopDLL.Entities
     {
 
         public DateTime DateTime { get; set; }
-        [ForeignKey("Customer")]
+        //[ForeignKey("Customer")]
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        [ForeignKey("Movie")]
+        //[ForeignKey("Movie")]
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
     }

@@ -15,7 +15,7 @@ namespace MovieShopDLL.Managers
 
         public MovieManager()
         {
-            InitDummyMovies();
+            //InitDummyMovies();
         }
 
         private void InitDummyMovies()
@@ -27,13 +27,7 @@ namespace MovieShopDLL.Managers
                 
                 Movie m1 = new Movie()
                 {
-                    Title = "Test1",
-                    GenreId = g.Id,
-                    Genre = g,
-                    ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
-                    MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                    Price = 100,
-                    Year = 1992
+                    
 
                 };
 
