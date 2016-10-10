@@ -38,7 +38,12 @@ namespace MovieShopDLL.Managers
             using (var dbContext = new MovieShopContext())
             {
 
-                return dbContext.Movies.ToList();
+                var movies = dbContext.Movies.ToList();
+                foreach (var movie in movies)
+                {
+                    movie.Genre = _genreManager.Read(movie.GenreId);
+                }
+                return movies;
             }
         }
 
