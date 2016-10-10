@@ -30,17 +30,17 @@
                         <td>@customer.Id</td>
                         <td>@customer.FirstName @customer.LastName</td>
                         <td style="width: 10px">
-                            <a class="btn btn-primary btn-xs" href="~/Customer/Edit/@customer.Id"> <span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-primary btn-xs" href="../Customers/Edit/@customer.Id"> <span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                         <td style="width: 10px">
-                            <a class="btn btn-danger btn-xs" href="~/Customer/Delete/@customer.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-danger btn-xs" href="../Customers/Delete/@customer.Id"><span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     </tr>
                 }
             </tr>
             </tbody>
         </table>
-        <a class="btn btn-primary btn-xs" href="~/Customer/Create">Create</a>
+        <a class="btn btn-primary btn-xs" href="../Customers/Create">Create</a>
     </td>
 
     <td valign="top" style="width: 33%">
@@ -54,24 +54,25 @@
             </tr>
             </thead>
             <tbody style="overflow: scroll;">
-                <tr class="clickable warning dropdown-deliverable" data-for="#details_1">
-                    @foreach (var movie in @Model.Movies)
-                    {
+            <tr class="clickable warning dropdown-deliverable" data-for="#details_1">
+                @foreach (var movie in @Model.Movies)
+                {
                     <tr>
                         <td>@movie.Id</td>
                         <td>@movie.Title</td>
                         <td style="width: 10px">
-                            <a class="btn btn-primary btn-xs" href="~/Movie/Edit/@movie.Id"> <span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-primary btn-xs" href="../Movies/Edit/@movie.Id"> <span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                         <td style="width: 10px">
-                            <a class="btn btn-danger btn-xs" href="~/Movie/Delete/@movie.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-danger btn-xs" href="../Movies/Delete/@movie.Id"><span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     </tr>
-                    }
+                }
 
             </tr>
             </tbody>
         </table>
+        <a class="btn btn-primary btn-xs" href="../Movies/Create">Create</a>
     </td>
     <td valign="top" style="width: 33%">
         <table class="table table-striped table-hover table-bordered">
@@ -85,21 +86,21 @@
             </tr>
             </thead>
             <tbody style="overflow: scroll;">
-                <tr class="clickable warning dropdown-deliverable" data-for="#details_1">
-                    @foreach (var order in @Model.Orders)
-                    {
+            <tr class="clickable warning dropdown-deliverable" data-for="#details_1">
+                @foreach (var order in @Model.Orders)
+                {
                     <tr>
                         <td>@order.Id</td>
                         <td>@order.Customer.Id</td>
                         <td>@order.Movie.Id</td>
                         <td style="width: 10px">
-                            <a class="btn btn-primary btn-xs" href="~/Order/Edit/@order.Id"> <span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-primary btn-xs" href="../Orders/Edit/@order.Id"> <span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                         <td style="width: 10px">
-                            <a class="btn btn-danger btn-xs" href="~/Order/Delete/@order.Id"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-danger btn-xs" href="../Orders/Delete/@order.Id"><span class="glyphicon glyphicon-remove"></span></a>
                         </td>
                     </tr>
-                    }
+                }
             </tr>
             </tbody>
         </table>
