@@ -5,59 +5,40 @@
     ViewBag.Title = "Index";
 }
 <head>
-    <link rel="stylesheet" href="~/Styles/UserIndexView.css" type="text/css" />
-    <script>
-        $(document).ready(function () {
-            $('#list').click(function (event) { event.preventDefault(); $('#products .item').addClass('list-group-item'); });
-            $('#grid').click(function (event) { event.preventDefault(); $('#products .item').removeClass('list-group-item'); $('#products .item').addClass('grid-group-item'); });
-        });
-    </script>
+    <link href="/Styles/UserIndexView.css" rel="stylesheet" type="text/css" />
 </head>
-<h2>Index</h2>
-
-<div class="container">
-    <div class="well well-sm">
-        <strong>Category Title</strong>
-        <div class="btn-group">
-            <a href="#" id="list" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-th-list">
-                </span>List
-            </a> <a href="#" id="grid" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-th"></span>Grid
-            </a>
-        </div>
-    </div>
-
-    <div id="products" class="row list-group">
+<h2>Movies</h2>
+<body>
+        <div id="products" class="row list-group pre-scrollable" style="min-height: 750px; max-height: 750px">
             @foreach (var movie in @Model)
             {
                 <div class="item  col-xs-4 col-lg-4">
                     <div class="thumbnail">
 
-                        <img class="group list-group-image" src="@movie.ImageUrl" alt=""/>
+                        <img class="group list-group-image" src="@movie.ImageUrl" alt="" />
                         <div class="caption">
                             <h4 class="group inner list-group-item-heading">
                                 @movie.Title
                             </h4>
                             <p class="group inner list-group-item-text">
-                                @movie.Description
+                                @movie.Genre
                             </p>
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <p class="lead">
-                                        @movie.Price
+                                        Pris: @movie.Price
                                     </p>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
-                                    <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                                    <button onclick="location.href = '../User/MovieDetails/@movie.Id'"><img width="130" height="60" src="http://blog.performance-bmw.com/wp-content/uploads/2015/10/Details-button.png"/></button>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             }
-    </div>
-</div>
+        </div>
+</body>
+
 
 

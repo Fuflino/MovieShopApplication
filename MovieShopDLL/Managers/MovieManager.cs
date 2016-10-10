@@ -13,29 +13,6 @@ namespace MovieShopDLL.Managers
     {
         private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
 
-        public MovieManager()
-        {
-            //InitDummyMovies();
-        }
-
-        private void InitDummyMovies()
-        {
-            Genre g = new Genre() { Name = "Horror" };
-            g = _genreManager.Create(g);
-            for (int i = 0; i < 8; i++)
-            {
-                
-                Movie m1 = new Movie()
-                {
-                    
-
-                };
-
-                Create(m1);
-            }
-         
-        }
-
         public Movie Create(Movie t)
         {
             using (var dbContext = new MovieShopContext())
