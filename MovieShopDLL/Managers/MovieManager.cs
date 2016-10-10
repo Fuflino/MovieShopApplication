@@ -11,6 +11,8 @@ namespace MovieShopDLL.Managers
 {
     public class MovieManager : IManager<Movie, int>
     {
+        private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
+
         public MovieManager()
         {
             InitDummyMovies();
@@ -18,70 +20,26 @@ namespace MovieShopDLL.Managers
 
         private void InitDummyMovies()
         {
-            var m1 = new Movie()
+            Genre g = new Genre() { Name = "Horror" };
+            g = _genreManager.Create(g);
+            for (int i = 0; i < 8; i++)
             {
-                Id = 1,
-                Title = "Horror movie",
-                Description = "Just another movie",
-                Orders = new List<Order>(),
-                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
-                Price = 139.95,
-                Year = 2100,
-                Genre = new Genre() { Id = 4, Movies = new List<Movie>(), Name = "Sci-Fi" },
-                GenreId = 4,
-                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial"
+                
+                Movie m1 = new Movie()
+                {
+                    Title = "Test1",
+                    GenreId = g.Id,
+                    Genre = g,
+                    ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
+                    MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
+                    Price = 100,
+                    Year = 1992
 
-            };
+                };
 
-            var m2 = new Movie()
-            {
-                Title = "Horror movie",
-                Description = "Just another movie",
-                Id = 2,
-                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
-                Price = 139.95,
-                Year = 2100,
-                Genre = new Genre() { Id = 3, Movies = new List<Movie>(), Name = "Drama" },
-                GenreId = 1,
-                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial",
-                Orders = new List<Order>()
-
-            };
-
-            var m3 = new Movie()
-            {
-                Title = "Horror movie",
-                Description = "Just another movie",
-                Id = 3,
-                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
-                Price = 139.95,
-                Year = 2100,
-                Genre = new Genre() { Id = 1, Movies = new List<Movie>(), Name = "Horror"},
-                GenreId = 1,
-                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial",
-                Orders = new List<Order>()
-
-            };
-
-            var m4 = new Movie()
-            {
-                Title = "Horror movie",
-                Description = "Just another movie",
-                Id = 4,
-                ImageUrl = "http://img2.rnkr-static.com/list_img_v2/1755/1041755/C480/the-most-terrifying-japanese-horror-movies-of-all-time-u3.jpg",
-                Price = 139.95,
-                Year = 2100,
-                Genre = new Genre() { Id = 2, Movies = new List<Movie>(), Name = "Comic" },
-                GenreId = 1,
-                MovieUrl = "http://www.xnxx.com/video-7r2at9f/blonde_mom_handjob_and_facial",
-                Orders = new List<Order>()
-
-            };
-
-            Create(m1);
-            Create(m2);
-            Create(m3);
-            Create(m4);
+                Create(m1);
+            }
+         
         }
 
         public Movie Create(Movie t)
@@ -98,7 +56,9 @@ namespace MovieShopDLL.Managers
         {
             using (var dbContext = new MovieShopContext())
             {
-                return dbContext.Movies.FirstOrDefault(x => x.Id == id);
+                var m = dbContext.Movies.FirstOrDefault(x => x.Id == id);
+                m.Genre = _genreManager.Read(m.GenreId);
+                return m;
             }
         }
 

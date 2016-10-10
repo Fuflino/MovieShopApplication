@@ -11,7 +11,7 @@ namespace MovieShopDLL.Context
         public class MovieShopContext : DbContext
         {
             public MovieShopContext() : base("MovieStoreDB")
-            {
+            { 
 
                 Database.SetInitializer(new MovieDBInitializer());
 
@@ -29,8 +29,10 @@ namespace MovieShopDLL.Context
 
     public class MovieDBInitializer : DropCreateDatabaseAlways<MovieShopContext>
     {
+        
         protected override void Seed(MovieShopContext context)
         {
+
             var genre = new Genre() {Name = "Ostbager"};
             genre = context.Genres.Add(genre);
 

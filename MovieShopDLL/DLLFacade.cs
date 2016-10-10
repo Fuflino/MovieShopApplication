@@ -13,6 +13,7 @@ namespace MovieShopDLL
         private IManager<Customer, int> cm;
         private IManager<Movie, int> mm;
         private IManager<Order, int> om;
+        private IManager<Genre, int> gm;
 
         public IManager<Customer, int> GetCustomerManager()
         {
@@ -27,6 +28,11 @@ namespace MovieShopDLL
         public IManager<Order, int> GetOrderManager()
         {
             return om ?? (om = new OrderManager());
+        }
+
+        public IManager<Genre, int> GetGenreManager()
+        {
+            return gm ?? (gm = new GenreManager());
         }
     }
 }
