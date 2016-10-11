@@ -25,6 +25,8 @@ namespace MovieShopDLL.Managers
             Movie m1 = new Movie()
             {
                 Title = "Test1",
+                Description = "This is so horrifying that you will be a whiny kiddy crying in your bed. " +
+                              "So BE CAREFUL when watching this imba movie of DOOOOOOM!!!!",
                 GenreId = g.Id,
                 Genre = g,
                 ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
