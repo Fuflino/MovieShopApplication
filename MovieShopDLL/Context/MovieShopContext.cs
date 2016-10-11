@@ -46,7 +46,7 @@ namespace MovieShopDLL.Context
         protected override void Seed(MovieShopContext context)
         {
 
-            var genre = new Genre() { Name = "Ostbager" };
+            var genre = new Genre() { Name = "Horror" };
             genre = context.Genres.Add(genre);
 
             for (int i = 1; i <= 8; i++)
@@ -58,8 +58,8 @@ namespace MovieShopDLL.Context
                     Genre = genre,
                     ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
                     MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
-                    Price = 100,
-                    Year = 1992,
+                    Price = 100 + i,
+                    Year = 1992 + i,
                     Description = "Blah Blah Blah Blah Blah Blah Blah Blah Blah " +
                                   "Blah Blah Blah Blah Blah Blah Blah Blah Blah " +
                                   "Blah Blah Blah Blah Blah Blah Blah Blah Blah " +

@@ -15,7 +15,7 @@ namespace MovieShopDLL.Managers
 
         public MovieManager()
         {
-            InitDummyMovies();
+            //InitDummyMovies();
         }
 
         private void InitDummyMovies()
