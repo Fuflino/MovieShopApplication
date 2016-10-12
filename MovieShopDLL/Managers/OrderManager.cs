@@ -24,7 +24,7 @@ namespace MovieShopDLL.Managers
 
         public Order Read(int id)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 return dbContext.Orders.FirstOrDefault(x => x.Id == id);
             }

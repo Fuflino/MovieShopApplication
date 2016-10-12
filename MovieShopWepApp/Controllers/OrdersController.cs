@@ -18,8 +18,9 @@ namespace MovieShopWepApp.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Customer).Include(o => o.Movie);
-            return View(orders.ToList());
+            //var orders = db.Orders.Include(o => o.Customer).Include(o => o.Movie);
+            //return View(orders.ToList());
+            return Redirect("~/Admin/Index");
         }
 
         // GET: Orders/Details/5
@@ -57,6 +58,7 @@ namespace MovieShopWepApp.Controllers
                 db.Orders.Add(order);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+                //return RedirectToAction("Index");
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
@@ -92,11 +94,13 @@ namespace MovieShopWepApp.Controllers
             {
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Redirect("~/admin/index");
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
             ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
-            return View(order);
+            //return View(order);
+            return Redirect("~/admin/index");
         }
 
         // GET: Orders/Delete/5

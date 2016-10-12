@@ -49,7 +49,7 @@ namespace MovieShopDLL.Context
             var genre = new Genre() { Name = "Horror" };
             genre = context.Genres.Add(genre);
 
-            for (int i = 1; i <= 8; i++)
+            for (int i = 1; i <= 20; i++)
             {
                 var movie = new Movie()
                 {
@@ -67,9 +67,7 @@ namespace MovieShopDLL.Context
                                   "Blah Blah Blah Blah Blah Blah Blah Blah Blah"
                 };
                 movie = context.Movies.Add(movie);
-
-
-
+                
                 var customer = new Customer() {FirstName = "Bille" + i, LastName = "Iversen" + i * 2};
                 customer = context.Customers.Add(customer);
 
