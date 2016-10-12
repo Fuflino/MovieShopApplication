@@ -18,8 +18,9 @@ namespace MovieShopWepApp.Controllers
         // GET: Movies
         public ActionResult Index()
         {
-            var movies = db.Movies.Include(m => m.Genre).Include(m => m.Order);
-            return View(movies.ToList());
+            //var movies = db.Movies.Include(m => m.Genre).Include(m => m.Order);
+            //return View(movies.ToList());
+            return Redirect("~/Admin/Index");
         }
 
         // GET: Movies/Details/5

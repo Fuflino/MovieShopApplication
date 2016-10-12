@@ -1,11 +1,7 @@
 ﻿body {
     background-image: url("1000px-Clapboard_svg.png");
-} 
-
-.item {
-    border-style: double;
-    border-color: cadetblue;
 }
+
 h2 {
     font-family: fantasy;
     align-self: baseline;
