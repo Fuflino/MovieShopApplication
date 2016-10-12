@@ -18,8 +18,9 @@ namespace MovieShopWepApp.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = db.Customers.Include(c => c.Address);
-            return View(customers.ToList());
+            //var customers = db.Customers.Include(c => c.Address);
+            //return View(customers.ToList());
+            return Redirect("~/Admin/Index");
         }
 
         // GET: Customers/Details/5
