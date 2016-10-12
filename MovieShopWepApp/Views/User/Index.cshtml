@@ -7,37 +7,84 @@
 <head>
     <link href="/Styles/UserIndexView.css" rel="stylesheet" type="text/css" />
 </head>
-<h2>Movies</h2>
-<body>
-        <div id="products" class="row list-group pre-scrollable" style="min-height: 750px; max-height: 750px">
-            @foreach (var movie in @Model)
-            {
-                <div class="item  col-xs-4 col-lg-4">
-                    <div class="thumbnail">
 
-                        <img class="group list-group-image" src="@movie.ImageUrl" alt="" />
-                        <div class="caption">
-                            <h4 class="group inner list-group-item-heading">
-                                Title: @movie.Title
-                            </h4>
-                            <p class="group inner list-group-item-text">
-                               Genre: @movie.Genre.Name
-                            </p>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                    <p class="lead">
-                                        Pris: @movie.Price
-                                    </p>
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    <button onclick="location.href = '../User/MovieDetails/@movie.Id'"><img width="130" height="60" src="http://blog.performance-bmw.com/wp-content/uploads/2015/10/Details-button.png"/></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+
+
+
+<body>
+
+    <h2>Movies</h2>
+
+<div id="Menu" class="nav-side-menu">
+    <div class="brand">Menu</div>
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+    <div class="menu-list">
+
+        <ul id="menu-content" class="menu-content collapse out">
+            <li>
+                <a href="#">
+                    <i class="fa fa-dashboard fa-lg"></i> Sortering
+                </a>
+            </li>
+
+            <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                <a href="#"><i class="fa fa-gift fa-lg"></i> Genres <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="products">
+                <li class="active"><a href="#">BREAKFAST!</a></li>
+                <li><a href="#">Horror</a></li>
+                <li><a href="#">Sci-Fi</a></li>
+                <li><a href="#">Drama</a></li>
+                <li><a href="#">Comedy</a></li>
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Adventure</a></li>
+                <li><a href="#">Crime</a></li>
+                <li><a href="#">Thriller</a></li>
+                <li><a href="#">Romance</a></li>
+            </ul>
+            @*<li data-toggle="collapse" data-target="#service" class="collapsed">
+                <a href="#"><i class="fa fa-globe fa-lg"></i> Services <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="service">
+                <li>New Service 1</li>
+                <li>New Service 2</li>
+                <li>New Service 3</li>
+            </ul>
+
+
+            <li data-toggle="collapse" data-target="#new" class="collapsed">
+                <a href="#"><i class="fa fa-car fa-lg"></i> New <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="new">
+                <li>New New 1</li>
+                <li>New New 2</li>
+                <li>New New 3</li>
+            </ul>
+
+
+            <li>
+                <a href="#">
+                    <i class="fa fa-user fa-lg"></i> Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa fa-users fa-lg"></i> Users
+                </a>
+            </li>*@
+        </ul>
+    </div>
+</div>
+
+
+<div id="products" class="row list-group pre-scrollable" style="min-height: 750px; max-height: 750px">
+    @foreach (var movie in @Model)
+    {
+        @Html.Partial("PartialMovieView", movie)
+    }
+</div>
 </body>
 
 
