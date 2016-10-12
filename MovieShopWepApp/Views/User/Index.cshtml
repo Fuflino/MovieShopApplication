@@ -9,36 +9,48 @@
 </head>
 <h2>Movies</h2>
 <body>
-        <div id="products" class="row list-group pre-scrollable" style="min-height: 750px; max-height: 750px">
-            @foreach (var movie in @Model)
+    <div id="products" class="row list-group pre-scrollable" style="min-height: 750px; max-height: 750px">
+        @foreach (var movie in @Model)
             {
-                <div class="item  col-xs-4 col-lg-4">
-                    <div class="thumbnail">
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
 
-                        <img class="group list-group-image" src="@movie.ImageUrl" alt="" />
-                        <div class="caption">
-                            <h4 class="group inner list-group-item-heading">
-                                @movie.Title
-                            </h4>
-                            <p class="group inner list-group-item-text">
-                                @movie.Genre
-                            </p>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                    <p class="lead">
-                                        Pris: @movie.Price
-                                    </p>
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    <button onclick="location.href = '../User/MovieDetails/@movie.Id'"><img width="130" height="60" src="http://blog.performance-bmw.com/wp-content/uploads/2015/10/Details-button.png"/></button>
+                    <img class="group list-group-image" src="@movie.ImageUrl" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            @movie.Title
+                        </h4>
+                        <p class="group inner list-group-item-text">
+                            @movie.Genre
+                        </p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    Pris: @movie.Price
+                                </p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                
+                                <button onclick="location.href = '../User/MovieDetails/@movie.Id'"><img width="130" height="60" src="http://blog.performance-bmw.com/wp-content/uploads/2015/10/Details-button.png" /></button>
+                                <a href="#openModal">View Details</a>
+
+                                <div id="openModal" class="modalDialog">
+                                    <div>
+                                        <a href="#close" title="Close" class="close">X</a>
+                                        <h2>Modal Box</h2>
+
+                                        <iframe width="400" height="250" src="../User/MovieDetails/@movie.Id"></iframe>
+
+                                        <p>@movie.Id This is a sample modal box that can be created using the powers of CSS3.</p>
+                                        <p>You could do a lot of things here like have a pop-up ad that shows when your website loads, or create a login/register form for users.</p>
+                                        d
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 </body>
-
-
-
