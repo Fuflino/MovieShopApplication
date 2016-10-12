@@ -26,7 +26,7 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext = new MovieShopContext())
             {
-                return dbContext.Orders.FirstOrDefault(x => x.Id == id);
+                return dbContext.Orders.Include("Customer").Include("Movie").FirstOrDefault(x => x.Id == id);
             }
         }
 
