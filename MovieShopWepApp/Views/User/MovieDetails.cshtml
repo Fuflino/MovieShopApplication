@@ -8,14 +8,14 @@
     <link rel="stylesheet" type="text/css" href="~/Styles/MovieDetailsStylesheet.css">
 </head>
 <body>
-    <div>
-        <table style="width: 500px">
+    <div style="width: 50%; height: 70%;">
+        <table>
             <thead>Movie Details</thead>
             <tr>
                 <td class="type">Title:</td>
                 <td class="value">@Model.Title</></td>
                 <td rowspan="4">
-                    <iframe width="400" height="250" src="@Model.MovieUrl" frameborder="0" allowfullscreen></iframe>
+                    <iframe marginwidth="2" marginheight="2" src="@Model.MovieUrl" frameborder="0" allowfullscreen></iframe>
                 </td>
             </tr> 
             <tr>
@@ -33,6 +33,11 @@
             <tr>
                 <td class="type">Summary:</td>
                 <td colspan="2">@Model.Description</td>
+                <td>
+                    <button style="text-decoration:none" class="btn btn-success">@Html.ActionLink("Checkout", "Checkout", new {Model.Id})</button>
+                    <a class="btn btn-warning" href="../Index">Back</a>
+
+                </td>
             </tr>  
         </table>
     </div>

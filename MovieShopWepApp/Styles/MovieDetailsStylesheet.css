@@ -21,3 +21,11 @@ table {
     width: 100px;   
 }
 
+a {
+    width: 85px;
+}
+
+button {
+    text-decoration: none;
+}
+
