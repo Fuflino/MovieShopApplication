@@ -69,5 +69,7 @@ namespace MovieShopDLL.Managers
             }
             return false;
         }
+
+        
     }
 }
