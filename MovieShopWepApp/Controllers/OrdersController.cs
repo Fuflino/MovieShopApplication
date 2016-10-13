@@ -63,17 +63,16 @@ namespace MovieShopWepApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DateTime,CustomerId,MovieId, Movie")] Order order)
+        public ActionResult Edit([Bind(Include = "Id,DateTime,CustomerId,MovieId")] Order order)
         {
+            
             if (ModelState.IsValid)
             {
                 mgr.Update(order);
-                //return RedirectToAction("Index");
                 return Redirect("~/admin/index");
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
             ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
-            //return View(order);
             return Redirect("~/admin/index");
         }
 

@@ -42,7 +42,7 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext)
             {
-                dbContext.Entry(t).State = EntityState.Modified;
+                dbContext.Entry(t).State = System.Data.Entity.EntityState.Modified;
                 dbContext.SaveChanges();
                 return t;
             }
