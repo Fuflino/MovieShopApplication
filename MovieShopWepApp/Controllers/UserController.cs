@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Razor;
 using MovieShopDLL;
+using MovieShopDLL.Context;
 using MovieShopDLL.Entities;
 using MovieShopWepApp.Models;
 
@@ -18,16 +20,23 @@ namespace MovieShopWepApp.Controllers
         // GET: User
         public ActionResult Index(int? id)
         {
-            if (id != null)
+            var model = new UserViewModel()
             {
-                return PartialView("PartialMovieView", new UserViewModel() { Genre = _genreManager.Read(id.Value), Movies = _movieManager.ReadAll() });
+                Genres = _genreManager.ReadAll(),
+                Movies = _movieManager.ReadAll()
+            };
+            if (id.HasValue)
+            {
+                model.Genre = _genreManager.Read(id.Value);
             }
-            return View(new UserViewModel() { Genres = _genreManager.ReadAll(), Movies = _movieManager.ReadAll()});
+            return View(model);
         }
 
         public PartialViewResult GetMoviesResult(int? id)
         {
-            return PartialView("PartialMovieView", new UserViewModel() { Genre = _genreManager.Read(id.Value), Movies = _movieManager.ReadAll() });
+
+        
+            return PartialView("PartialMovieView", _genreManager.Read(id.Value).Movies);
         }
 
         public ActionResult MovieDetails(int id)

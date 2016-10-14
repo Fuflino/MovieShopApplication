@@ -25,7 +25,7 @@ namespace MovieShopDLL.Context
 
             modelBuilder.Entity<Order>().HasRequired<Customer>(c => c.Customer).WithMany(g => g.Orders);
 
-            modelBuilder.Entity<Customer>().HasOptional<Address>(c => c.Address).WithRequired(o => o.Customer);
+            modelBuilder.Entity<Customer>().HasOptional<Address>(c => c.Address);
 
                 base.OnModelCreating(modelBuilder);
         }
@@ -185,7 +185,11 @@ namespace MovieShopDLL.Context
                 movie7 = context.Movies.Add(movie7);
                 genre6.Movies.Add(movie7);
 
+                var address = new Address() {City = "dk", StreetName = "ost"};
+                context.Addresses.Add(address);
+
                 var customer = new Customer() {FirstName = "Bille" + i, LastName = "Iversen" + i * 2};
+                customer.Address = address;
                 customer = context.Customers.Add(customer);
 
                 var order = new Order() {Customer = customer, Movie = movie, DateTime = DateTime.Now};
