@@ -76,13 +76,12 @@ namespace MovieShopWepApp.Controllers
                     toHaveOrderRemoved.Orders.RemoveAll(x => x.Id == order.Id);
                     CusMgr.Update(toHaveOrderRemoved);                   
                 }
-                //if (order.MovieId != OrdMgr.Read(order.Id).MovieId)
-                //{
-                //    Movie toHaveOrderRemoved = MovMgr.Read(OrdMgr.Read(order.Id).MovieId);
-                //    toHaveOrderRemoved.Order = null;
-                //    MovMgr.Update(toHaveOrderRemoved);
-                //    var check = MovMgr.Read(toHaveOrderRemoved.Id);
-                //}
+                if (order.MovieId != OrdMgr.Read(order.Id).Movie.Id)
+                {
+                    Movie toHaveOrderRemoved = MovMgr.Read(OrdMgr.Read(order.Id).Movie.Id);
+                    toHaveOrderRemoved.Order = null;
+                    MovMgr.Update(toHaveOrderRemoved);
+                }
                 OrdMgr.Update(order);
                 return Redirect("~/admin/index");
             }
