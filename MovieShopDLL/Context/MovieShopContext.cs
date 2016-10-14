@@ -46,8 +46,8 @@ namespace MovieShopDLL.Context
         protected override void Seed(MovieShopContext context)
         {
 
-            var genre = new Genre() { Name = "Ostbager" };
-            genre = context.Genres.Add(genre);
+            var genre = new Genre() { Name = "Ostbager"};
+            
 
             for (int i = 1; i <= 20; i++)
             {
@@ -68,11 +68,14 @@ namespace MovieShopDLL.Context
                 };
                 movie = context.Movies.Add(movie);
                 
-                var customer = new Customer() {FirstName = "Bille" + i, LastName = "Iversen" + i * 2};
-                customer = context.Customers.Add(customer);
-
+                var customer = new Customer() {FirstName = "Bille" + i, LastName = "Iversen" + i * 2,Address = null, Email = null, Id = i};
+                
                 var order = new Order() {Customer = customer, Movie = movie, DateTime = DateTime.Now};
-                context.Orders.Add(order);
+                
+                order = context.Orders.Add(order);
+                customer.Orders.Add(order);
+                context.Customers.Add(customer);
+
             }
 
             base.Seed(context);

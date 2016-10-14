@@ -11,7 +11,7 @@ namespace MovieShopDLL.Managers
 {
     public class MovieManager : IManager<Movie, int>
     {
-        private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
+        //private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
 
         public Movie Create(Movie t)
         {
@@ -27,8 +27,7 @@ namespace MovieShopDLL.Managers
         {
             using (var dbContext = new MovieShopContext())
             {
-                var m = dbContext.Movies.FirstOrDefault(x => x.Id == id);
-                m.Genre = _genreManager.Read(m.GenreId);
+                var m = dbContext.Movies.Include("Genre").FirstOrDefault(x => x.Id == id);
                 return m;
             }
         }

@@ -11,10 +11,10 @@ namespace MovieShopDLL.Managers
 {
     class OrderManager : IManager<Order, int>
     {
-        private MovieShopContext dbContext = new MovieShopContext();
+        private MovieShopContext dbContext;
         public Order Create(Order t)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 dbContext.Orders.Add(t);
                 dbContext.SaveChanges();
@@ -32,7 +32,7 @@ namespace MovieShopDLL.Managers
 
         public List<Order> ReadAll()
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 return dbContext.Orders.Include("Customer").Include("Movie").ToList();
             }
@@ -40,7 +40,7 @@ namespace MovieShopDLL.Managers
 
         public Order Update(Order t)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 dbContext.Entry(t).State = System.Data.Entity.EntityState.Modified;
                 dbContext.SaveChanges();
@@ -50,7 +50,7 @@ namespace MovieShopDLL.Managers
 
         public bool Delete(int id)
         {
-            using (dbContext)
+            using (dbContext = new MovieShopContext())
             {
                 var toBeDeleted = dbContext.Orders.FirstOrDefault(x => x.Id == id);
                 if (toBeDeleted != null)

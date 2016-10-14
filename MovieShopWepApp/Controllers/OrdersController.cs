@@ -14,7 +14,9 @@ namespace MovieShopWepApp.Controllers
 {
     public class OrdersController : Controller
     {
-        private IManager<Order, int> mgr = new DLLFacade().GetOrderManager();
+        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
+        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
+        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
         private MovieShopContext db = new MovieShopContext();
 
         // GET: Orders
@@ -32,7 +34,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = mgr.Read(id.Value);
+            Order order = OrdMgr.Read(id.Value);
             if (order == null)
             {
                 return HttpNotFound();
@@ -47,7 +49,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = mgr.Read(id.Value);
+            Order order = OrdMgr.Read(id.Value);
             if (order == null)
             {
                 return HttpNotFound();
@@ -68,7 +70,20 @@ namespace MovieShopWepApp.Controllers
             
             if (ModelState.IsValid)
             {
-                mgr.Update(order);
+                if (order.CustomerId != OrdMgr.Read(order.Id).CustomerId)
+                {
+                    Customer toHaveOrderRemoved = CusMgr.Read(OrdMgr.Read(order.Id).CustomerId);
+                    toHaveOrderRemoved.Orders.RemoveAll(x => x.Id == order.Id);
+                    CusMgr.Update(toHaveOrderRemoved);                   
+                }
+                //if (order.MovieId != OrdMgr.Read(order.Id).MovieId)
+                //{
+                //    Movie toHaveOrderRemoved = MovMgr.Read(OrdMgr.Read(order.Id).MovieId);
+                //    toHaveOrderRemoved.Order = null;
+                //    MovMgr.Update(toHaveOrderRemoved);
+                //    var check = MovMgr.Read(toHaveOrderRemoved.Id);
+                //}
+                OrdMgr.Update(order);
                 return Redirect("~/admin/index");
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
@@ -83,7 +98,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = mgr.Read(id.Value);
+            Order order = OrdMgr.Read(id.Value);
             if (order == null)
             {
                 return HttpNotFound();
@@ -96,7 +111,7 @@ namespace MovieShopWepApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            mgr.Delete(id);
+            OrdMgr.Delete(id);
             return RedirectToAction("Index");
         }
     }
