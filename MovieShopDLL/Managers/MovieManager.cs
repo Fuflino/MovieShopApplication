@@ -11,7 +11,7 @@ namespace MovieShopDLL.Managers
 {
     public class MovieManager : IManager<Movie, int>
     {
-        private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
+        private readonly IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
 
         public Movie Create(Movie t)
         {
