@@ -79,7 +79,7 @@ namespace MovieShopWepApp.Controllers
                 if (order.MovieId != OrdMgr.Read(order.Id).Movie.Id)
                 {
                     Movie toHaveOrderRemoved = MovMgr.Read(OrdMgr.Read(order.Id).Movie.Id);
-                    toHaveOrderRemoved.Order = null;
+                    toHaveOrderRemoved.Orders.RemoveAll(x => x.Id == order.Id);
                     MovMgr.Update(toHaveOrderRemoved);
                 }
                 OrdMgr.Update(order);

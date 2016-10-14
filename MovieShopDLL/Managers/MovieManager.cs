@@ -27,7 +27,7 @@ namespace MovieShopDLL.Managers
         {
             using (var dbContext = new MovieShopContext())
             {
-                var m = dbContext.Movies.Include("Genre").Include("Order").FirstOrDefault(x => x.Id == id);
+                var m = dbContext.Movies.Include("Genre").Include("Orders").FirstOrDefault(x => x.Id == id);
                 return m;
             }
         }

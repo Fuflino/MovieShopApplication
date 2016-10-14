@@ -104,9 +104,9 @@ namespace MovieShopWepApp.Controllers
             foreach (var order in CusMgr.Read(id).Orders)
             {
                 Order orderFromDatabase = OrdMgr.Read(order.Id);
-                var movieToHaveOrderRemoved = orderFromDatabase.Movie;
-                movieToHaveOrderRemoved.Order = null;
-                MovMgr.Update(movieToHaveOrderRemoved);
+                Movie movieToHaveOrdersRemoved = MovMgr.Read(OrdMgr.Read(order.Id).Movie.Id);
+                movieToHaveOrdersRemoved.Orders.RemoveAll(x => x.Id == order.Id);
+                MovMgr.Update(movieToHaveOrdersRemoved);
                 OrdMgr.Delete(order.Id);
             }
             CusMgr.Delete(id);

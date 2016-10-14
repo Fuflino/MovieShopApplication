@@ -21,7 +21,7 @@ namespace MovieShopDLL.Context
         {
             modelBuilder.Entity<Movie>().HasRequired<Genre>(m => m.Genre).WithMany(g => g.Movies);
 
-            modelBuilder.Entity<Order>().HasRequired<Movie>(o => o.Movie).WithOptional(m => m.Order);
+            modelBuilder.Entity<Order>().HasRequired<Movie>(o => o.Movie).WithMany(m => m.Orders);
 
             modelBuilder.Entity<Order>().HasRequired<Customer>(c => c.Customer).WithMany(g => g.Orders);
 

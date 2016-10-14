@@ -23,6 +23,6 @@ namespace MovieShopDLL.Entities
         public string MovieUrl { get; set; }
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
-        public Order Order { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }
