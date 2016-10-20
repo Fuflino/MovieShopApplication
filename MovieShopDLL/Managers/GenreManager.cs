@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using MovieShopDLL.Context;
@@ -10,7 +11,7 @@ using MovieShopDLL.Entities;
 namespace MovieShopDLL.Managers
 {
     class GenreManager : IManager<Genre, int>
-    { 
+    {
         public Genre Create(Genre t)
         {
             using (var dbContext = new MovieShopContext())
@@ -25,8 +26,10 @@ namespace MovieShopDLL.Managers
         {
             using (var dbContext = new MovieShopContext())
             {
-                return dbContext.Genres.FirstOrDefault(x => x.Id == id);
+                var genre = dbContext.Genres.Include("Movies").FirstOrDefault(x => x.Id == id);
+                return genre;
             }
+            
         }
 
         public List<Genre> ReadAll()
@@ -62,5 +65,7 @@ namespace MovieShopDLL.Managers
             }
             return false;
         }
+
+
     }
 }

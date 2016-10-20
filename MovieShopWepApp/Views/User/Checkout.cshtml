@@ -14,15 +14,13 @@
         
         <Button class="btn btn-success" type="submit">Check</Button>
     </form>
-
     
-
 @if(@Model.customer != null)
  {
      @Html.HiddenFor(model => model.customer.Id)
-     ;
+     
      @Html.HiddenFor(model => model.customer.Orders)
-     ;
+     
      <div class="form-group">
          @Html.LabelFor(model => model.customer.FirstName, htmlAttributes: new {@class = "control-label col-md-2"})
          <div class="col-md-10">
@@ -44,10 +42,7 @@
              @Html.ValidationMessageFor(model => model.customer.Address, "", new {@class = "text-danger"})
          </div>
      </div>
-
-
  }
-
 }
 
 
