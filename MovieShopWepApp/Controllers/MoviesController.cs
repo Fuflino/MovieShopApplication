@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MovieShopDLL;
 using MovieShopDLL.Context;
 using MovieShopDLL.Entities;
 
@@ -13,13 +14,14 @@ namespace MovieShopWepApp.Controllers
 {
     public class MoviesController : Controller
     {
+        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
+        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
+        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
         private MovieShopContext db = new MovieShopContext();
 
         // GET: Movies
         public ActionResult Index()
         {
-            //var movies = db.Movies.Include(m => m.Genre).Include(m => m.Order);
-            //return View(movies.ToList());
             return Redirect("~/Admin/Index");
         }
 
@@ -30,7 +32,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Find(id);
+            Movie movie = MovMgr.Read(id.Value);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -55,8 +57,7 @@ namespace MovieShopWepApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Movies.Add(movie);
-                db.SaveChanges();
+                MovMgr.Create(movie);
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +73,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Find(id);
+            Movie movie = MovMgr.Read(id.Value);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -91,8 +92,7 @@ namespace MovieShopWepApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(movie).State = EntityState.Modified;
-                db.SaveChanges();
+                MovMgr.Update(movie);
                 return RedirectToAction("Index");
             }
             ViewBag.GenreId = new SelectList(db.Genres, "Id", "Name", movie.GenreId);
@@ -107,7 +107,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = db.Movies.Find(id);
+            Movie movie = MovMgr.Read(id.Value);
             if (movie == null)
             {
                 return HttpNotFound();
@@ -120,19 +120,19 @@ namespace MovieShopWepApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Movie movie = db.Movies.Find(id);
-            db.Movies.Remove(movie);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            foreach (Order ord in OrdMgr.ReadAll())
             {
-                db.Dispose();
+                if (ord.Movie.Id == id)
+                {
+                    Customer customerToHaveOrderRemoved = CusMgr.Read(ord.Customer.Id);
+                    customerToHaveOrderRemoved.Orders.RemoveAll(x => x.Id == ord.Id);
+                    CusMgr.Update(customerToHaveOrderRemoved);
+                    OrdMgr.Delete(ord.Id);
+                }
             }
-            base.Dispose(disposing);
+            MovMgr.Delete(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

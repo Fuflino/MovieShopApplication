@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MovieShopDLL;
 using MovieShopDLL.Context;
 using MovieShopDLL.Entities;
 
@@ -13,29 +14,15 @@ namespace MovieShopWepApp.Controllers
 {
     public class CustomersController : Controller
     {
+        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
+        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
+        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
         private MovieShopContext db = new MovieShopContext();
 
         // GET: Customers
         public ActionResult Index()
         {
-            //var customers = db.Customers.Include(c => c.Address);
-            //return View(customers.ToList());
             return Redirect("~/Admin/Index");
-        }
-
-        // GET: Customers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(customer);
         }
 
         // GET: Customers/Create
@@ -54,8 +41,7 @@ namespace MovieShopWepApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                CusMgr.Create(customer);
                 return RedirectToAction("Index");
             }
 
@@ -70,7 +56,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = CusMgr.Read(id.Value);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -88,8 +74,7 @@ namespace MovieShopWepApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
+                CusMgr.Update(customer);
                 return RedirectToAction("Index");
             }
             ViewBag.Id = new SelectList(db.Addresses, "Id", "StreetName", customer.Id);
@@ -103,7 +88,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
+            Customer customer = CusMgr.Read(id.Value);
             if (customer == null)
             {
                 return HttpNotFound();
@@ -116,19 +101,16 @@ namespace MovieShopWepApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            foreach (var order in CusMgr.Read(id).Orders)
             {
-                db.Dispose();
+                Order orderFromDatabase = OrdMgr.Read(order.Id);
+                Movie movieToHaveOrdersRemoved = MovMgr.Read(OrdMgr.Read(order.Id).Movie.Id);
+                movieToHaveOrdersRemoved.Orders.RemoveAll(x => x.Id == order.Id);
+                MovMgr.Update(movieToHaveOrdersRemoved);
+                OrdMgr.Delete(order.Id);
             }
-            base.Dispose(disposing);
+            CusMgr.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

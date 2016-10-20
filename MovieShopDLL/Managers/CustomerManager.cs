@@ -32,7 +32,7 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext = new MovieShopContext())
             {
-                return dbContext.Customers.Include("Address").FirstOrDefault(x => x.Id == id);
+                return dbContext.Customers.Include("Address").Include("Orders").FirstOrDefault(x => x.Id == id);
             }
         }
 
