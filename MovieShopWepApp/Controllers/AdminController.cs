@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MovieShopDLL;
@@ -23,8 +24,8 @@ namespace MovieShopWepApp.Controllers
         {
             
             return View(new AdminViewModel() {Customers = cusMgr.ReadAll(), Movies = movMgr.ReadAll(), Orders = ordMgr.ReadAll()});
-        }
+        }  
 
-        
+
     }
 }

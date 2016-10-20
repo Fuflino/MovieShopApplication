@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MovieShopDLL;
 using MovieShopDLL.Context;
 using MovieShopDLL.Entities;
 
@@ -13,6 +14,9 @@ namespace MovieShopWepApp.Controllers
 {
     public class OrdersController : Controller
     {
+        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
+        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
+        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
         private MovieShopContext db = new MovieShopContext();
 
         // GET: Orders
@@ -30,39 +34,11 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = OrdMgr.Read(id.Value);
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
-        }
-
-        // GET: Orders/Create
-        public ActionResult Create()
-        {
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName");
-            ViewBag.Id = new SelectList(db.Movies, "Id", "Title");
-            return View();
-        }
-
-        // POST: Orders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DateTime,CustomerId,MovieId")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Orders.Add(order);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-                //return RedirectToAction("Index");
-            }
-
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
-            ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
             return View(order);
         }
 
@@ -73,12 +49,13 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = OrdMgr.Read(id.Value);
             if (order == null)
             {
                 return HttpNotFound();
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
+            ViewBag.MovieId = new SelectList(db.Movies, "Id", "Title", order.MovieId);
             ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
             return View(order);
         }
@@ -90,16 +67,26 @@ namespace MovieShopWepApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,DateTime,CustomerId,MovieId")] Order order)
         {
+            
             if (ModelState.IsValid)
             {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                //return RedirectToAction("Index");
+                if (order.CustomerId != OrdMgr.Read(order.Id).CustomerId)
+                {
+                    Customer toHaveOrderRemoved = CusMgr.Read(OrdMgr.Read(order.Id).CustomerId);
+                    toHaveOrderRemoved.Orders.RemoveAll(x => x.Id == order.Id);
+                    CusMgr.Update(toHaveOrderRemoved);                   
+                }
+                if (order.MovieId != OrdMgr.Read(order.Id).Movie.Id)
+                {
+                    Movie toHaveOrderRemoved = MovMgr.Read(OrdMgr.Read(order.Id).Movie.Id);
+                    toHaveOrderRemoved.Orders.RemoveAll(x => x.Id == order.Id);
+                    MovMgr.Update(toHaveOrderRemoved);
+                }
+                OrdMgr.Update(order);
                 return Redirect("~/admin/index");
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
             ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
-            //return View(order);
             return Redirect("~/admin/index");
         }
 
@@ -110,7 +97,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = OrdMgr.Read(id.Value);
             if (order == null)
             {
                 return HttpNotFound();
@@ -123,19 +110,8 @@ namespace MovieShopWepApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
+            OrdMgr.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
