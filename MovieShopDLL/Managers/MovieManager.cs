@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MovieShopDLL.Context;
@@ -51,8 +52,7 @@ namespace MovieShopDLL.Managers
         {
             using (var dbContext = new MovieShopContext())
             {
-                var m = dbContext.Movies.FirstOrDefault(x => x.Id == id);
-                m.Genre = _genreManager.Read(m.GenreId);
+                var m = dbContext.Movies.Include("Genre").FirstOrDefault(x => x.Id == id);
                 return m;
             }
         }

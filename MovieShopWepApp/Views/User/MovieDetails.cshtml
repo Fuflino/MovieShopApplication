@@ -17,7 +17,7 @@
                 <td rowspan="4">
                     <iframe marginwidth="2" marginheight="2" src="@Model.MovieUrl" frameborder="0" allowfullscreen></iframe>
                 </td>
-            </tr> 
+            </tr>
             <tr>
                 <td class="type">Genre:</td>
                 <td class="value">@Model.Genre.Name</td>
@@ -34,11 +34,11 @@
                 <td class="type">Summary:</td>
                 <td colspan="2">@Model.Description</td>
                 <td>
-                    <button style="text-decoration:none" class="btn btn-success">@Html.ActionLink("Checkout", "Checkout", new {Model.Id})</button>
-                    <a class="btn btn-warning" href="../Index">Back</a>
+                    <a class="btn btn-success" href='@Url.Action("Checkout", "User", new { id = @Model.Id })'>Checkout</a>
+                    <a class="btn btn-warning" href="'../Index'">Back</a>
 
                 </td>
-            </tr>  
+            </tr>
         </table>
     </div>
 </body>

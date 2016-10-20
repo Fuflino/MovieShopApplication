@@ -68,7 +68,13 @@ namespace MovieShopDLL.Context
                 };
                 movie = context.Movies.Add(movie);
                 
-                var customer = new Customer() {FirstName = "Bille" + i, LastName = "Iversen" + i * 2};
+                var customer = new Customer() {FirstName = "Bille" + i,
+                    LastName = "Iversen" + i * 2,
+                    Address = new Address()
+                    { City = "Beijing", StreetName = "Lortegade", StreetNumber = i },
+                    Email = $"motte@privat{i}.dk",
+                    Orders = new List<Order>()};
+                customer.Address.Customer = customer;
                 customer = context.Customers.Add(customer);
 
                 var order = new Order() {Customer = customer, Movie = movie, DateTime = DateTime.Now};

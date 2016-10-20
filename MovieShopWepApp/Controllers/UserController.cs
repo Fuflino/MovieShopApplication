@@ -13,7 +13,8 @@ namespace MovieShopWepApp.Controllers
     {
 
         private IManager<Movie, int> _movieManager = new DLLFacade().GetMovieManager();
-        private IManager<Customer, int> _CustomerManager = new DLLFacade().GetCustomerManager();
+        private IManager<Customer, int> _customerManager = new DLLFacade().GetCustomerManager();
+        private IManager<Order, int> _orderManager = new DLLFacade().GetOrderManager();
 
         // GET: User
         public ActionResult Index()
@@ -27,28 +28,38 @@ namespace MovieShopWepApp.Controllers
         }
 
 
-
-        public ActionResult Checkout(int movieId)
+        [HttpGet]
+        public ActionResult Checkout(int id, string email)
         {
-            var movieToOrder = _movieManager.Read(movieId);
-            var viewModel = new CheckoutViewModel() { customer = null, movie = movieToOrder };
+            var movieToOrder = _movieManager.Read(id);
+            Customer c = SearchByEmail(email);
+
+            var viewModel = new CheckoutViewModel() {customer = c, movie = movieToOrder};
             return View(viewModel);
         }
 
-        //GET: Checkout view
-        public ActionResult Checkout(String email, Movie movieToOrder)
+        [HttpPost]
+        public ActionResult Checkout(Customer customer, int movieId)
         {
-            var customer = SearchByEmail(email);
-            var viewModel = new CheckoutViewModel() {customer = customer, movie = movieToOrder};
-            return View(viewModel);
-
-        }
-        
-        public Customer SearchByEmail(String email)
-        {
-            foreach (var customer in _CustomerManager.ReadAll())
+            var movie = _movieManager.Read(movieId);
+            var order = new Order() {Customer = customer, CustomerId = customer.Id, Movie = movie, MovieId = movieId, DateTime = DateTime.Now};
+            movie.Order = order;
+            _orderManager.Create(order);
+            if (customer.Id < 1)
             {
-                if (customer.Email.Trim().Equals(email.Trim())) return customer;
+                _customerManager.Create(customer);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public Customer SearchByEmail(string email)
+        {
+            if (email != null)
+            {
+                foreach (var customer in _customerManager.ReadAll())
+                {
+                    if (customer.Email.Trim().Equals(email.Trim())) return customer;
+                }
             }
             return null;
         }
