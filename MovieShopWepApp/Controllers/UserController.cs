@@ -27,7 +27,7 @@ namespace MovieShopWepApp.Controllers
         }
 
 
-
+        [HttpGet]
         public ActionResult Checkout(int movieId)
         {
             var movieToOrder = _movieManager.Read(movieId);
