@@ -12,7 +12,6 @@ namespace MovieShopDLL.Entities
         public int StreetNumber { get; set; }
         public int Zipcode { get; set; }
         public string City { get; set; }
-
-        public Customer Customer { get; set; }
+        
     }
 }

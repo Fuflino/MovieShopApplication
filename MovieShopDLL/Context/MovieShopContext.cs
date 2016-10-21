@@ -23,11 +23,11 @@ namespace MovieShopDLL.Context
 
             modelBuilder.Entity<Order>().HasRequired<Movie>(o => o.Movie).WithMany(m => m.Orders);
 
-            modelBuilder.Entity<Order>().HasRequired<Customer>(c => c.Customer).WithMany(g => g.Orders);
+            modelBuilder.Entity<Order>().HasRequired<Customer>(o => o.Customer).WithMany(c => c.Orders);
 
-            modelBuilder.Entity<Customer>().HasOptional<Address>(c => c.Address).WithRequired(o => o.Customer);
+            modelBuilder.Entity<Customer>().HasOptional<Address>(c => c.Address);
 
-                base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Genre> Genres { get; set; }
@@ -46,10 +46,16 @@ namespace MovieShopDLL.Context
         protected override void Seed(MovieShopContext context)
         {
 
-            var genre = new Genre() { Name = "Horror" };
-            genre = context.Genres.Add(genre);
+            var genre = new Genre() { Id = 1, Name = "Horror", Movies = new List<Movie>() };
+            var genre1 = new Genre() { Id = 2, Name = "Drama", Movies = new List<Movie>() };
+            var genre2 = new Genre() { Id = 3, Name = "Thriller", Movies = new List<Movie>() };
+            var genre3 = new Genre() { Id = 4, Name = "Science-Fiction", Movies = new List<Movie>() };
+            var genre4 = new Genre() { Id = 5, Name = "Romance", Movies = new List<Movie>() };
+            var genre5 = new Genre() { Id = 6, Name = "Crime", Movies = new List<Movie>() };
+            var genre6 = new Genre() { Id = 7, Name = "Comedy", Movies = new List<Movie>() };
 
-            for (int i = 1; i <= 20; i++)
+
+            for (int i = 1; i <= 6; i++)
             {
                 var movie = new Movie()
                 {
@@ -64,26 +70,38 @@ namespace MovieShopDLL.Context
                                   "Blah Blah Blah Blah Blah Blah Blah Blah Blah " +
                                   "Blah Blah Blah Blah Blah Blah Blah Blah Blah " +
                                   "Blah Blah Blah Blah Blah Blah Blah Blah Blah " +
-                                  "Blah Blah Blah Blah Blah Blah Blah Blah Blah"
+                                  "Blah Blah Blah Blah Blah Blah Blah Blah Blah",
+
+
                 };
                 movie = context.Movies.Add(movie);
-                
-                var customer = new Customer() {FirstName = "Bille" + i,
+                genre.Movies.Add(movie);
+
+                var customer = new Customer()
+                {
+                    FirstName = "Bille" + i,
                     LastName = "Iversen" + i * 2,
                     Address = new Address()
                     { City = "Beijing", StreetName = "Lortegade", StreetNumber = i },
                     Email = $"motte@privat{i}.dk",
-                    Orders = new List<Order>()};
-                customer.Address.Customer = customer;
+                    Orders = new List<Order>()
+                };
                 customer = context.Customers.Add(customer);
 
-                var order = new Order() {Customer = customer, Movie = movie, DateTime = DateTime.Now};
-                
+                var order = new Order() { Customer = customer, Movie = movie, DateTime = DateTime.Now };
+
                 order = context.Orders.Add(order);
                 customer.Orders.Add(order);
                 context.Customers.Add(customer);
 
             }
+            context.Genres.Add(genre);
+            context.Genres.Add(genre1);
+            context.Genres.Add(genre2);
+            context.Genres.Add(genre3);
+            context.Genres.Add(genre4);
+            context.Genres.Add(genre5);
+            context.Genres.Add(genre6);
 
             base.Seed(context);
         }

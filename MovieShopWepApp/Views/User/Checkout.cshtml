@@ -5,9 +5,11 @@
 <h2>Checkout</h2>
 @using (@Html.BeginForm("Checkout", "User", FormMethod.Get))
 {
-    @Html.HiddenFor(model => model.movie)
+    @Html.HiddenFor(model => model.movie.Id)
 
-    @Html.HiddenFor(model => model.movie.Genre)
+    @Html.HiddenFor(model => model.movie.Genre.Id)
+
+    @Html.HiddenFor(model => model.customer.Id)
 
     <div>
         <input style="width: 70%" name="email" type="text" placeholder="Type Email Here" />
@@ -22,8 +24,6 @@
     @Html.HiddenFor(model => model.customer.Id)
 
     @Html.HiddenFor(model => model.customer.Orders)
-
-    @Html.HiddenFor(model => model.movie.Genre)
 
     <div class="form-group">
         @Html.LabelFor(model => model.customer.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })

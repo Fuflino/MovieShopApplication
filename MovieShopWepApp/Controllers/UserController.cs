@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Razor;
 using MovieShopDLL;
+using MovieShopDLL.Context;
 using MovieShopDLL.Entities;
 using MovieShopWepApp.Models;
 
@@ -11,15 +14,31 @@ namespace MovieShopWepApp.Controllers
 {
     public class UserController : Controller
     {
-
+        private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
         private IManager<Movie, int> _movieManager = new DLLFacade().GetMovieManager();
         private IManager<Customer, int> _customerManager = new DLLFacade().GetCustomerManager();
         private IManager<Order, int> _orderManager = new DLLFacade().GetOrderManager();
 
         // GET: User
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View(_movieManager.ReadAll());
+            var model = new UserViewModel()
+            {
+                Genres = _genreManager.ReadAll(),
+                Movies = _movieManager.ReadAll()
+            };
+            if (id.HasValue)
+            {
+                model.Genre = _genreManager.Read(id.Value);
+            }
+            return View(model);
+        }
+
+        public PartialViewResult GetMoviesResult(int? id)
+        {
+
+        
+            return PartialView("PartialMovieView", _genreManager.Read(id.Value).Movies);
         }
 
         public ActionResult MovieDetails(int id)
@@ -39,16 +58,23 @@ namespace MovieShopWepApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Checkout(Customer customer, int movieId)
+        public ActionResult Checkout(int id, Customer customer)
         {
-            var movie = _movieManager.Read(movieId);
-            var order = new Order() {Customer = customer, CustomerId = customer.Id, Movie = movie, MovieId = movieId, DateTime = DateTime.Now};
-            movie.Order = order;
-            _orderManager.Create(order);
             if (customer.Id < 1)
             {
-                _customerManager.Create(customer);
+                customer = _customerManager.Create(customer);
             }
+            else
+            {
+                customer = _customerManager.Update(customer);
+            }
+            var movie = _movieManager.Read(id);
+            var order = new Order() { MovieId = movie.Id, CustomerId = customer.Id, DateTime = DateTime.Now};
+            order = _orderManager.Create(order);
+            movie.Orders.Add(order);       
+            customer.Orders.Add(order);
+            _movieManager.Update(movie);
+            _customerManager.Update(customer);
             return RedirectToAction("Index");
         }
 

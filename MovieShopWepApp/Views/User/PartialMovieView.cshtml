@@ -1,0 +1,36 @@
+﻿@using MovieShopDLL.Entities;
+@model List<Movie>
+<div id="movies" class="row list-group pre-scrollable" style="min-height: 750px; max-height: 750px">
+    @foreach (var movie in Model)
+    {
+    <div class="item  col-xs-4 col-lg-4">
+        <div class="thumbnail">
+
+            <img class="group list-group-image" src="@movie.ImageUrl" alt="" />
+            <div class="caption">
+                <h4 class="group inner list-group-item-heading">
+                    Title: @movie.Title
+                </h4>
+                <p class="group inner list-group-item-text">
+                    Genre: @movie.Genre.Name
+                </p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead">
+                            Pris: @movie.Price
+                        </p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <button onclick="location.href = '../User/MovieDetails/@movie.Id'"><img width="130" height="60" src="http://blog.performance-bmw.com/wp-content/uploads/2015/10/Details-button.png" /></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+
+  
+
+
+</div>
