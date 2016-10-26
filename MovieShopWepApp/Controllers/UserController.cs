@@ -34,10 +34,13 @@ namespace MovieShopWepApp.Controllers
             return View(model);
         }
 
-        public PartialViewResult GetMoviesResult(int? id)
+        public PartialViewResult GetMovieDetails(int? id)
         {
+            return PartialView("PartialMovieDetailsView", _movieManager.Read(id.Value));
+        }
 
-        
+        public PartialViewResult GetMoviesResult(int? id)
+        {   
             return PartialView("PartialMovieView", _genreManager.Read(id.Value).Movies);
         }
 

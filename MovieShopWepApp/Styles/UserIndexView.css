@@ -151,7 +151,19 @@ h2 {
   }
 }
 
+#movies {
+    background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);
+}
 
+#moviespace {
+    background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);
+}
 
 .modalDialog {
 	position: fixed;
