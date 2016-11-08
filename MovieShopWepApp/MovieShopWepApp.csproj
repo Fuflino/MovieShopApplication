@@ -248,8 +248,11 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Styles\AdminMainView.css" />
     <Content Include="Styles\MovieDetailsStylesheet.css" />
+    <Content Include="Styles\PartialViewStyleSheet.css" />
     <Content Include="Styles\UserIndexView.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
