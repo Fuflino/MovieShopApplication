@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MovieShopDLL.Context;
@@ -12,6 +13,30 @@ namespace MovieShopDLL.Managers
     public class MovieManager : IManager<Movie, int>
     {
         private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
+
+        public MovieManager()
+        {
+            //InitDummyMovies();
+        }
+
+        private void InitDummyMovies()
+        {
+            Genre g = new Genre() {Name = "Horror"};
+            g = _genreManager.Create(g);
+            Movie m1 = new Movie()
+            {
+                Title = "Test1",
+                Description = "This is so horrifying that you will be a whiny kiddy crying in your bed. " +
+                              "So BE CAREFUL when watching this imba movie of DOOOOOOM!!!!",
+                GenreId = g.Id,
+                Genre = g,
+                ImageUrl = "https://i.ytimg.com/vi/I7WwCzmkBh0/maxresdefault.jpg",
+                MovieUrl = "https://www.youtube.com/embed/bnYlcVh-awE",
+                Price = 100,
+                Year = 1992
+            };
+            Create(m1);
+        }
 
         public Movie Create(Movie t)
         {

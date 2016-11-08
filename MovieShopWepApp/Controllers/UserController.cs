@@ -16,7 +16,8 @@ namespace MovieShopWepApp.Controllers
     {
         private IManager<Genre, int> _genreManager = new DLLFacade().GetGenreManager();
         private IManager<Movie, int> _movieManager = new DLLFacade().GetMovieManager();
-        private IManager<Customer, int> _CustomerManager = new DLLFacade().GetCustomerManager();
+        private IManager<Customer, int> _customerManager = new DLLFacade().GetCustomerManager();
+        private IManager<Order, int> _orderManager = new DLLFacade().GetOrderManager();
 
         // GET: User
         public ActionResult Index(int? id)
@@ -33,10 +34,13 @@ namespace MovieShopWepApp.Controllers
             return View(model);
         }
 
-        public PartialViewResult GetMoviesResult(int? id)
+        public PartialViewResult GetMovieDetails(int? id)
         {
+            return PartialView("PartialMovieDetailsView", _movieManager.Read(id.Value));
+        }
 
-        
+        public PartialViewResult GetMoviesResult(int? id)
+        {   
             return PartialView("PartialMovieView", _genreManager.Read(id.Value).Movies);
         }
 
@@ -46,28 +50,45 @@ namespace MovieShopWepApp.Controllers
         }
 
 
-
-        public ActionResult Checkout(int movieId)
+        [HttpGet]
+        public ActionResult Checkout(int id, string email)
         {
-            var movieToOrder = _movieManager.Read(movieId);
-            var viewModel = new CheckoutViewModel() { customer = null, movie = movieToOrder };
+            var movieToOrder = _movieManager.Read(id);
+            Customer c = SearchByEmail(email);
+
+            var viewModel = new CheckoutViewModel() {customer = c, movie = movieToOrder};
             return View(viewModel);
         }
 
-        //GET: Checkout view
-        public ActionResult Checkout(String email, Movie movieToOrder)
+        [HttpPost]
+        public ActionResult Checkout(int id, Customer customer)
         {
-            var customer = SearchByEmail(email);
-            var viewModel = new CheckoutViewModel() {customer = customer, movie = movieToOrder};
-            return View(viewModel);
-
-        }
-        
-        public Customer SearchByEmail(String email)
-        {
-            foreach (var customer in _CustomerManager.ReadAll())
+            if (customer.Id < 1)
             {
-                if (customer.Email.Trim().Equals(email.Trim())) return customer;
+                customer = _customerManager.Create(customer);
+            }
+            else
+            {
+                customer = _customerManager.Update(customer);
+            }
+            var movie = _movieManager.Read(id);
+            var order = new Order() { MovieId = movie.Id, CustomerId = customer.Id, DateTime = DateTime.Now};
+            order = _orderManager.Create(order);
+            movie.Orders.Add(order);       
+            customer.Orders.Add(order);
+            _movieManager.Update(movie);
+            _customerManager.Update(customer);
+            return RedirectToAction("Index");
+        }
+
+        public Customer SearchByEmail(string email)
+        {
+            if (email != null)
+            {
+                foreach (var customer in _customerManager.ReadAll())
+                {
+                    if (customer.Email.Trim().Equals(email.Trim())) return customer;
+                }
             }
             return null;
         }

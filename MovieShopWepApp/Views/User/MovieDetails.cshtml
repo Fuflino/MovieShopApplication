@@ -8,30 +8,37 @@
     <link rel="stylesheet" type="text/css" href="~/Styles/MovieDetailsStylesheet.css">
 </head>
 <body>
-    <div>
+    <div style="width: 50%; height: 70%;">
         <table>
             <thead>Movie Details</thead>
             <tr>
                 <td class="type">Title:</td>
-                <td>@Model.Title</></td>
+                <td class="value">@Model.Title</></td>
                 <td rowspan="4">
-                    <iframe width="400" height="250" src="@Model.MovieUrl" frameborder="0" allowfullscreen></iframe>
+                    <iframe marginwidth="2" marginheight="2" src="@Model.MovieUrl" frameborder="0" allowfullscreen></iframe>
                 </td>
-                </tr>
+            </tr>
             <tr>
                 <td class="type">Genre:</td>
-                <td>@Model.Genre.Name</td>
+                <td class="value">@Model.Genre.Name</td>
             </tr>
             <tr>
                 <td class="type">Released:</td>
-                <td>@Model.Year</td>
+                <td class="value">@Model.Year</td>
             </tr>
             <tr>
                 <td class="type">Price:</td>
-                <td>@Model.Price</td>
+                <td class="value">@Model.Price</td>
             </tr>
-            
-            
+            <tr>
+                <td class="type">Summary:</td>
+                <td colspan="2">@Model.Description</td>
+                <td>
+                    <a class="btn btn-success" href='@Url.Action("Checkout", "User", new { id = @Model.Id })'>Checkout</a>
+                    <a class="btn btn-warning" href="'../Index'">Back</a>
+
+                </td>
+            </tr>
         </table>
     </div>
 </body>

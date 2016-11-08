@@ -1,23 +1,38 @@
 ﻿body {
 }
 
+h2 {
+    font-family: fantasy;
+    align-self: baseline;
+    font-style: oblique;
+    font-size: 400%;
+}
+
 tr {
     height: 30px;
-    color: whitesmoke;
+    color: black;
     font-family: monospace;
 }
 
-table {
-    background: black;
-    border: 1px solid;
+td {
+    font-size: 18px;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
 }
 
 .type {
-    width: 110px;
     font-weight: bold;
 }
-
+    
 .value {
-    width: 200px;   
+     
 }
+
+p {
+    font-family: monospace;
+}
+
 

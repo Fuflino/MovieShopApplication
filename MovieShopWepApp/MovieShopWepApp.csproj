@@ -286,7 +286,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Admin\view.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Movies\Create.cshtml" />
     <Content Include="Views\Movies\Delete.cshtml" />
@@ -309,6 +308,7 @@
     <Content Include="Views\User\MoviesByGenre.cshtml" />
     <Content Include="Views\Admin\EditOrder.cshtml" />
     <Content Include="Views\User\Checkout.cshtml" />
+    <Content Include="Views\User\PartialMovieDetailsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,7 +32,7 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext = new MovieShopContext())
             {
-                return dbContext.Customers.Include("Orders").FirstOrDefault(x => x.Id == id);
+                return dbContext.Customers.Include("Address").Include("Orders").FirstOrDefault(x => x.Id == id);
             }
         }
 
@@ -40,7 +40,7 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext = new MovieShopContext())
             {
-                return dbContext.Customers.ToList();
+                return dbContext.Customers.Include("Address").ToList();
             }
         }
 
@@ -59,13 +59,10 @@ namespace MovieShopDLL.Managers
         {
             using (dbContext = new MovieShopContext())
             {
-                if (id != null)
-                {
                     var toBeDeleted = dbContext.Customers.FirstOrDefault(x => x.Id == id);
                     dbContext.Customers.Remove(toBeDeleted);
                     dbContext.SaveChanges();
                     return true;
-                }
             }
             return false;
         }
