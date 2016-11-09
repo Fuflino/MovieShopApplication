@@ -1,13 +1,12 @@
-﻿@using MovieShopDLL.Entities
+﻿@using System.Threading
+@using MovieShopDLL.Entities
 @using MovieShopWepApp.Models
 @model MovieShopWepApp.Models.UserViewModel
 
 @{
     ViewBag.data = "Index";
 }
-
-    <h2>Movies</h2>
-
+<h3></h3>
 <div id="Menu" class="nav-side-menu">
     <div class="brand">Menu</div>
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
@@ -37,7 +36,7 @@
     </div>
 </div>
 
-<div id="osterlaekkert">
+<div style="width: 100%; height: 78vh" id="osterlaekkert">
     @{ Html.RenderPartial("PartialMovieView", Model.Movies);}
 </div>
 

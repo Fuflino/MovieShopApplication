@@ -1,5 +1,5 @@
 ﻿body {
-    background-image: url("1000px-Clapboard_svg.png");
+    background-image: url("background.jpg");
 }
 
 h2 {
@@ -152,10 +152,10 @@ h2 {
 }
 
 #movies {
-    background: #fff;
+    /*background: #fff;
 	background: -moz-linear-gradient(#fff, #999);
 	background: -webkit-linear-gradient(#fff, #999);
-	background: -o-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);*/
 }
 
 #moviespace {

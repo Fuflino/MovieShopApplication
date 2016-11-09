@@ -1,11 +1,33 @@
 ﻿body {
 }
 
-h2 {
+.info {
+    font-family: fantasy;
+    font-size: 1.4vw;
+    margin-left: 4px;
+}
+
+.header {
+    background-color: #23282e;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: whitesmoke;
+}
+
+#title {
     font-family: fantasy;
     align-self: baseline;
     font-style: oblique;
-    font-size: 400%;
+    font-size: 40px;
+    font-size: 3.5vw;
+}
+
+p {
+    font-family: monospace;
+    align-self: baseline;
+    font-style: oblique;
 }
 
 tr {
@@ -25,14 +47,13 @@ iframe {
 
 .type {
     font-weight: bold;
+    /*font-size: 16px;*/
+    font-size: 1.2vw;
 }
-    
+
 .value {
-     
+    /*font-size: 2px;*/
+    font-size: 1.2vw;
+    margin-left: 4px;
 }
-
-p {
-    font-family: monospace;
-}
-
 

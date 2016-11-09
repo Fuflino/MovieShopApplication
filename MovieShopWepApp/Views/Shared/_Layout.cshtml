@@ -32,14 +32,16 @@
 </div>
 <div class="container-fluid body-content">
     @RenderBody()
-    <hr/>
+    
+</div>
+    <hr />
     <footer>
         <p>&copy; @DateTime.Now.Year - KOTLM Design&trade;</p>
     </footer>
-</div>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
 </body>
+
 </html>
