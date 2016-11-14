@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace MovieShopDLL.Entities
+namespace ServiceGateway.Entities
 {
     public class Movie : AbstractEntity
     {
@@ -21,7 +16,6 @@ namespace MovieShopDLL.Entities
         public double Price { get; set; }
         public string ImageUrl { get; set; }
         public string MovieUrl { get; set; }
-        public int GenreId { get; set; }
         public Genre Genre { get; set; }
         public List<Order> Orders { get; set; }
     }

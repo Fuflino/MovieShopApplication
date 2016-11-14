@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
-using MovieShopDLL;
-using MovieShopDLL.Context;
-using MovieShopDLL.Entities;
+using ServiceGateway;
+using ServiceGateway.Entities;
 
 namespace MovieShopWepApp.Controllers
 {
     public class CustomersController : Controller
     {
-        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
-        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
-        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
-        private MovieShopContext db = new MovieShopContext();
+        private IServiceGateway<Customer, int> CusMgr = new ServiceGatewayFacade().GetCustomerServiceGateway();
+        private IServiceGateway<Order, int> OrdMgr = new ServiceGatewayFacade().GetOrderServiceGateway();
+        private IServiceGateway<Movie, int> MovMgr = new ServiceGatewayFacade().GetMovieServiceGateway();
+        private IServiceGateway<Address, int> AddMgr = new ServiceGatewayFacade().GetAddressServiceGateway();
 
         // GET: Customers
         public ActionResult Index()
@@ -28,7 +21,7 @@ namespace MovieShopWepApp.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.Addresses, "Id", "StreetName");
+            ViewBag.Id = new SelectList(AddMgr.ReadAll(), "Id", "StreetName");
             return View();
         }
 
@@ -45,7 +38,7 @@ namespace MovieShopWepApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.Addresses, "Id", "StreetName", customer.Id);
+            ViewBag.Id = new SelectList(AddMgr.ReadAll(), "Id", "StreetName", customer.Id);
             return View(customer);
         }
 
@@ -61,7 +54,7 @@ namespace MovieShopWepApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.Addresses, "Id", "StreetName", customer.Id);
+            ViewBag.Id = new SelectList(AddMgr.ReadAll(), "Id", "StreetName", customer.Id);
             return View(customer);
         }
 
@@ -77,7 +70,7 @@ namespace MovieShopWepApp.Controllers
                 CusMgr.Update(customer);
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.Addresses, "Id", "StreetName", customer.Id);
+            ViewBag.Id = new SelectList(AddMgr.ReadAll(), "Id", "StreetName", customer.Id);
             return View(customer);
         }
 
@@ -104,7 +97,7 @@ namespace MovieShopWepApp.Controllers
             foreach (var order in CusMgr.Read(id).Orders)
             {
                 Order orderFromDatabase = OrdMgr.Read(order.Id);
-                Movie movieToHaveOrdersRemoved = MovMgr.Read(OrdMgr.Read(order.Id).Movie.Id);
+                Movie movieToHaveOrdersRemoved = MovMgr.Read(orderFromDatabase.Movie.Id);
                 movieToHaveOrdersRemoved.Orders.RemoveAll(x => x.Id == order.Id);
                 MovMgr.Update(movieToHaveOrdersRemoved);
                 OrdMgr.Delete(order.Id);

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using MovieShopDLL;
-using MovieShopDLL.Entities;
 using MovieShopWepApp.Models;
+using ServiceGateway;
+using ServiceGateway.Entities;
 
 namespace MovieShopWepApp.Controllers
 {
@@ -14,9 +14,9 @@ namespace MovieShopWepApp.Controllers
     //[RequireHttps] --> kan ikke bruges på Azure, certifikat er et krav.
     public class AdminController : Controller
     {
-        private IManager<Customer, int> cusMgr = new DLLFacade().GetCustomerManager();
-        private IManager<Movie, int> movMgr = new DLLFacade().GetMovieManager();
-        private IManager<Order, int> ordMgr = new DLLFacade().GetOrderManager();
+        private IServiceGateway<Customer, int> cusMgr = new ServiceGatewayFacade().GetCustomerServiceGateway();
+        private IServiceGateway<Movie, int> movMgr = new ServiceGatewayFacade().GetMovieServiceGateway();
+        private IServiceGateway<Order, int> ordMgr = new ServiceGatewayFacade().GetOrderServiceGateway();
 
         [AllowAnonymous]
         // GET: Admin

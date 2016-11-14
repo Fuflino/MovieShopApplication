@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
-using MovieShopDLL;
-using MovieShopDLL.Context;
-using MovieShopDLL.Entities;
+using ServiceGateway;
+using ServiceGateway.Entities;
+using ServiceGateway.ServiceGateways;
 
 namespace MovieShopWepApp.Controllers
 {
     public class OrdersController : Controller
     {
-        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
-        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
-        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
-        private MovieShopContext db = new MovieShopContext();
+        private AbstractServiceGateway<Order, int> OrdMgr = new ServiceGatewayFacade().GetOrderServiceGateway();
+        private AbstractServiceGateway<Customer, int> CusMgr = new ServiceGatewayFacade().GetCustomerServiceGateway();
+        private AbstractServiceGateway<Movie, int> MovMgr = new ServiceGatewayFacade().GetMovieServiceGateway();
 
         // GET: Orders
         public ActionResult Index()
@@ -54,9 +47,9 @@ namespace MovieShopWepApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
-            ViewBag.MovieId = new SelectList(db.Movies, "Id", "Title", order.MovieId);
-            ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
+            ViewBag.CustomerId = new SelectList(CusMgr.ReadAll(), "Id", "FirstName", order.CustomerId);
+            ViewBag.MovieId = new SelectList(MovMgr.ReadAll(), "Id", "Title", order.MovieId);
+            ViewBag.Id = new SelectList(MovMgr.ReadAll(), "Id", "Title", order.Id);
             return View(order);
         }
 
@@ -85,8 +78,8 @@ namespace MovieShopWepApp.Controllers
                 OrdMgr.Update(order);
                 return Redirect("~/admin/index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", order.CustomerId);
-            ViewBag.Id = new SelectList(db.Movies, "Id", "Title", order.Id);
+            ViewBag.CustomerId = new SelectList(CusMgr.ReadAll(), "Id", "FirstName", order.CustomerId);
+            ViewBag.Id = new SelectList(MovMgr.ReadAll(), "Id", "Title", order.Id);
             return Redirect("~/admin/index");
         }
 

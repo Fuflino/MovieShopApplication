@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
-using MovieShopDLL;
-using MovieShopDLL.Context;
-using MovieShopDLL.Entities;
+using ServiceGateway;
+using ServiceGateway.Entities;
+using ServiceGateway.ServiceGateways;
 
 namespace MovieShopWepApp.Controllers
 {
     public class MoviesController : Controller
     {
-        private IManager<Movie, int> MovMgr = new DLLFacade().GetMovieManager();
-        private IManager<Order, int> OrdMgr = new DLLFacade().GetOrderManager();
-        private IManager<Customer, int> CusMgr = new DLLFacade().GetCustomerManager();
-        private MovieShopContext db = new MovieShopContext();
+        private AbstractServiceGateway<Movie, int> MovMgr = new ServiceGatewayFacade().GetMovieServiceGateway();
+        private AbstractServiceGateway<Order, int> OrdMgr = new ServiceGatewayFacade().GetOrderServiceGateway();
+        private AbstractServiceGateway<Customer, int> CusMgr = new ServiceGatewayFacade().GetCustomerServiceGateway();
+        private AbstractServiceGateway<Genre, int> GenMgr = new ServiceGatewayFacade().GetGenreServiceGateway();
 
         // GET: Movies
         public ActionResult Index()
@@ -43,8 +37,8 @@ namespace MovieShopWepApp.Controllers
         // GET: Movies/Create
         public ActionResult Create()
         {
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Name");
-            ViewBag.Id = new SelectList(db.Orders, "Id", "Id");
+            ViewBag.GenreId = new SelectList(GenMgr.ReadAll(), "Id", "Name");
+            ViewBag.Id = new SelectList(OrdMgr.ReadAll(), "Id", "Id");
             return View();
         }
 
@@ -53,7 +47,7 @@ namespace MovieShopWepApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,Year,Price,ImageUrl,MovieUrl,GenreId")] Movie movie)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,Year,Price,ImageUrl,MovieUrl,Genre")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -61,8 +55,8 @@ namespace MovieShopWepApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Name", movie.GenreId);
-            ViewBag.Id = new SelectList(db.Orders, "Id", "Id", movie.Id);
+            ViewBag.GenreId = new SelectList(GenMgr.ReadAll(), "Id", "Name", movie.Genre.Id);
+            ViewBag.Id = new SelectList(OrdMgr.ReadAll(), "Id", "Id", movie.Id);
             return View(movie);
         }
 
@@ -78,8 +72,8 @@ namespace MovieShopWepApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Name", movie.GenreId);
-            ViewBag.Id = new SelectList(db.Orders, "Id", "Id", movie.Id);
+            ViewBag.GenreId = new SelectList(GenMgr.ReadAll(), "Id", "Name", movie.Genre.Id);
+            ViewBag.Id = new SelectList(OrdMgr.ReadAll(), "Id", "Id", movie.Id);
             return View(movie);
         }
 
@@ -95,8 +89,8 @@ namespace MovieShopWepApp.Controllers
                 MovMgr.Update(movie);
                 return RedirectToAction("Index");
             }
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Name", movie.GenreId);
-            ViewBag.Id = new SelectList(db.Orders, "Id", "Id", movie.Id);
+            ViewBag.GenreId = new SelectList(GenMgr.ReadAll(), "Id", "Name", movie.Genre.Id);
+            ViewBag.Id = new SelectList(OrdMgr.ReadAll(), "Id", "Id", movie.Id);
             return View(movie);
         }
 
